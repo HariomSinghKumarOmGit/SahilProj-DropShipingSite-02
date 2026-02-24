@@ -47,7 +47,6 @@ export default async function NewProductPage() {
               <textarea 
                 name="description" 
                 rows={4} 
-                required
                 className="w-full px-4 py-2 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50 dark:bg-[#1a1a1a] focus:ring-2 focus:ring-blue-500 outline-none resize-none" 
               ></textarea>
             </div>
@@ -56,7 +55,6 @@ export default async function NewProductPage() {
               <label className="text-sm font-semibold">Category</label>
               <select 
                 name="categoryId" 
-                required 
                 className="w-full px-4 py-2 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50 dark:bg-[#1a1a1a] focus:ring-2 focus:ring-blue-500 outline-none"
               >
                 <option value="">Select Category</option>
@@ -84,22 +82,22 @@ export default async function NewProductPage() {
                 type="number" 
                 name="stock"
                 min="0"
-                required 
                 className="w-full px-4 py-2 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50 dark:bg-[#1a1a1a] focus:ring-2 focus:ring-blue-500 outline-none" 
               />
             </div>
             
             <div className="space-y-2 md:col-span-2">
-              <label className="text-sm font-semibold">Product Image</label>
+              <label className="text-sm font-semibold">Product Images (up to 5)</label>
               <div className="border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-xl p-8 text-center bg-gray-50 dark:bg-[#1a1a1a] hover:bg-gray-100 dark:hover:bg-[#222] transition relative">
                 <input 
                   type="file" 
-                  name="image" 
+                  name="images" 
                   accept="image/png, image/jpeg, image/webp"
+                  multiple
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 />
                 <Upload className="mx-auto text-gray-400 mb-3" size={32} />
-                <p className="font-semibold text-gray-700 dark:text-gray-300">Click or drag image to upload</p>
+                <p className="font-semibold text-gray-700 dark:text-gray-300">Click or drag images to upload</p>
                 <p className="text-xs text-gray-500 mt-1">PNG, JPG or WEBP up to 5MB</p>
               </div>
             </div>

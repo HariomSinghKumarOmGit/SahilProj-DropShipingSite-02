@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma"
 import Link from "next/link"
 import { ShoppingBag } from "lucide-react"
+import AddToCartButton from "@/components/shop/AddToCartButton"
 
 export default async function ShopPage({
   searchParams,
@@ -19,6 +20,8 @@ export default async function ShopPage({
     },
     orderBy: searchParams.sort === "price-asc" ? { price: "asc" } : searchParams.sort === "price-desc" ? { price: "desc" } : { createdAt: "desc" }
   })
+  
+  const categories = await prisma.category.findMany()
   
   const resolveImage = (url: string | null) => {
     if (!url) return "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80" // Fallback placeholder
@@ -43,10 +46,14 @@ export default async function ShopPage({
           <div>
             <h3 className="text-lg font-semibold mb-4">Categories</h3>
             <ul className="space-y-2">
-              <li><Link href="/shop" className="text-blue-600 font-medium">All Products</Link></li>
-              <li><Link href="/shop?category=tech" className="text-gray-600 dark:text-gray-400 hover:text-blue-600">Technology</Link></li>
-              <li><Link href="/shop?category=home" className="text-gray-600 dark:text-gray-400 hover:text-blue-600">Home Office</Link></li>
-              <li><Link href="/shop?category=accessories" className="text-gray-600 dark:text-gray-400 hover:text-blue-600">Accessories</Link></li>
+              <li><Link href="/shop" className={`font-medium ${!searchParams.category ? "text-blue-600" : "text-gray-600 dark:text-gray-400 hover:text-blue-600"}`}>All Products</Link></li>
+              {categories.map(c => (
+                <li key={c.id}>
+                  <Link href={`/shop?category=${c.id}`} className={`font-medium ${searchParams.category === c.id ? "text-blue-600" : "text-gray-600 dark:text-gray-400 hover:text-blue-600"}`}>
+                    {c.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           <div>
@@ -67,20 +74,18 @@ export default async function ShopPage({
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
               {products.map((product) => (
                 <div key={product.id} className="group cursor-pointer flex flex-col h-full">
-                  <div className="relative aspect-square bg-gray-100 dark:bg-gray-800 rounded-2xl overflow-hidden mb-4 border border-gray-200 dark:border-gray-800">
+                  <Link href={`/shop/${product.id}`} className="relative aspect-square bg-gray-100 dark:bg-gray-800 rounded-2xl overflow-hidden mb-2 border border-gray-200 dark:border-gray-800 block">
                     <img 
-                      src={resolveImage(product.imageUrl)} 
+                      src={resolveImage(product.images?.[0])} 
                       alt={product.name} 
                       className="object-cover w-full h-full group-hover:scale-105 transition duration-300" 
                     />
-                  </div>
-                  <div className="flex justify-between items-start mb-1 flex-1">
-                    <h3 className="text-lg font-semibold line-clamp-2 pr-4">{product.name}</h3>
+                  </Link>
+                  <Link href={`/shop/${product.id}`} className="flex justify-between items-start mb-1 flex-1 mt-2">
+                    <h3 className="text-lg font-semibold line-clamp-2 pr-4 hover:text-blue-600 transition">{product.name}</h3>
                     <p className="font-bold whitespace-nowrap">${product.price.toFixed(2)}</p>
-                  </div>
-                  <button className="mt-4 w-full bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold py-3 rounded-xl flex items-center justify-center gap-2 hover:bg-gray-800 dark:hover:bg-gray-100 transition">
-                    <ShoppingBag size={18} /> Add to Cart
-                  </button>
+                  </Link>
+                  <AddToCartButton product={product} />
                 </div>
               ))}
             </div>

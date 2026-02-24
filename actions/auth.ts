@@ -41,8 +41,8 @@ export async function registerAction(prevState: any, formData: FormData) {
   const passwordHash = await bcrypt.hash(password, 10)
 
   await prisma.user.create({
-    data: { name, email, passwordHash }
+    data: { name, email, passwordHash, role: "USER" }
   })
 
-  return { success: "Account created! You can now login." }
+  return { success: true, message: "Account created! You can now login." }
 }

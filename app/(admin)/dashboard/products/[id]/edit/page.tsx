@@ -57,8 +57,7 @@ export default async function EditProductPage({ params }: { params: { id: string
               <textarea 
                 name="description" 
                 rows={4} 
-                defaultValue={product.description}
-                required
+                defaultValue={product.description || ""}
                 className="w-full px-4 py-2 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50 dark:bg-[#1a1a1a] focus:ring-2 focus:ring-blue-500 outline-none resize-none" 
               ></textarea>
             </div>
@@ -67,8 +66,7 @@ export default async function EditProductPage({ params }: { params: { id: string
               <label className="text-sm font-semibold">Category</label>
               <select 
                 name="categoryId" 
-                defaultValue={product.categoryId}
-                required 
+                defaultValue={product.categoryId || ""}
                 className="w-full px-4 py-2 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50 dark:bg-[#1a1a1a] focus:ring-2 focus:ring-blue-500 outline-none"
               >
                 <option value="">Select Category</option>
@@ -96,28 +94,28 @@ export default async function EditProductPage({ params }: { params: { id: string
               <input 
                 type="number" 
                 name="stock"
-                defaultValue={product.stock}
+                defaultValue={product.stock ?? 0}
                 min="0"
-                required 
                 className="w-full px-4 py-2 border border-gray-200 dark:border-gray-800 rounded-lg bg-gray-50 dark:bg-[#1a1a1a] focus:ring-2 focus:ring-blue-500 outline-none" 
               />
             </div>
             
             <div className="space-y-2 md:col-span-2">
               <label className="text-sm font-semibold flex justify-between">
-                <span>Product Image</span>
-                {product.imageUrl && <span className="text-gray-500 text-xs font-normal">Leave blank to keep current image</span>}
+                <span>Product Images (up to 5)</span>
+                {product.images && product.images.length > 0 && <span className="text-gray-500 text-xs font-normal">Leave blank to keep current images ({product.images.length})</span>}
               </label>
               <div className="border-2 border-dashed border-gray-200 dark:border-gray-800 rounded-xl p-8 text-center bg-gray-50 dark:bg-[#1a1a1a] hover:bg-gray-100 dark:hover:bg-[#222] transition relative overflow-hidden">
                 <input 
                   type="file" 
-                  name="image" 
+                  name="images" 
                   accept="image/png, image/jpeg, image/webp"
+                  multiple
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                 />
                 <div className="relative z-0">
                   <Upload className="mx-auto text-gray-400 mb-3" size={32} />
-                  <p className="font-semibold text-gray-700 dark:text-gray-300">Click or drag new image to update</p>
+                  <p className="font-semibold text-gray-700 dark:text-gray-300">Click or drag new images to update</p>
                   <p className="text-xs text-gray-500 mt-1">PNG, JPG or WEBP up to 5MB</p>
                 </div>
               </div>

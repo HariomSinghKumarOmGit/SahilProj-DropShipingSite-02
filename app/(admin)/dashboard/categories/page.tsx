@@ -4,6 +4,7 @@ import Image from "next/image"
 import { Plus, Search, Edit, Trash2, Tag } from "lucide-react"
 
 import { prisma } from "@/lib/prisma"
+import { createCategoryAction, deleteCategoryAction } from "@/actions/category"
 
 export default async function AdminCategoriesPage() {
   const session = await auth()
@@ -32,9 +33,18 @@ export default async function AdminCategoriesPage() {
             <h1 className="text-2xl font-bold">Categories</h1>
             <p className="text-gray-500">Organize your product taxonomy</p>
           </div>
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 hover:bg-blue-700 transition">
-            <Plus size={20} /> Add Category
-          </button>
+          <form action={createCategoryAction} className="flex items-center gap-2">
+            <input 
+              type="text" 
+              name="name" 
+              placeholder="New Category Name" 
+              required
+              className="px-4 py-2 border border-gray-200 dark:border-gray-800 rounded-lg bg-white dark:bg-[#1a1a1a] focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium flex items-center gap-2 hover:bg-blue-700 transition">
+              <Plus size={20} /> Add Category
+            </button>
+          </form>
         </header>
 
         {/* Data Controls */}
@@ -70,7 +80,10 @@ export default async function AdminCategoriesPage() {
                   <td className="py-4 px-6 text-right">
                     <div className="flex justify-end gap-2">
                       <button className="p-2 text-gray-400 hover:text-blue-600 transition"><Edit size={18} /></button>
-                      <button className="p-2 text-gray-400 hover:text-red-600 transition"><Trash2 size={18} /></button>
+                      <form action={deleteCategoryAction}>
+                        <input type="hidden" name="id" value={category.id} />
+                        <button type="submit" className="p-2 text-gray-400 hover:text-red-600 transition"><Trash2 size={18} /></button>
+                      </form>
                     </div>
                   </td>
                 </tr>

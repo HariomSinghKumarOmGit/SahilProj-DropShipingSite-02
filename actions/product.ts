@@ -18,28 +18,29 @@ export async function createProductAction(formData: FormData) {
   const price = parseFloat(formData.get("price") as string)
   const stock = parseInt(formData.get("stock") as string, 10)
   
-  const imageFile = formData.get("image") as File | null
-  let imageUrl = ""
+  const imageFiles = formData.getAll("images") as File[]
+  const imageUrls: String[] = []
 
-  if (imageFile && imageFile.size > 0) {
-    const bytes = await imageFile.arrayBuffer()
-    const buffer = Buffer.from(bytes)
+  for (const imageFile of imageFiles) {
+    if (imageFile && imageFile.size > 0) {
+      const bytes = await imageFile.arrayBuffer()
+      const buffer = Buffer.from(bytes)
 
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`
-    const ext = path.extname(imageFile.name) || '.jpg'
-    const fileName = `product-${uniqueSuffix}${ext}`
-    
-    const uploadsDir = path.join(process.cwd(), "public", "uploads")
-    
-    // Ensure dir exists
-    try {
-      await fs.mkdir(uploadsDir, { recursive: true })
-    } catch(e) {}
-    
-    const filePath = path.join(uploadsDir, fileName)
-    await fs.writeFile(filePath, buffer)
-    
-    imageUrl = `/uploads/${fileName}`
+      const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`
+      const ext = path.extname(imageFile.name) || '.jpg'
+      const fileName = `product-${uniqueSuffix}${ext}`
+      
+      const uploadsDir = path.join(process.cwd(), "public", "uploads")
+      
+      try {
+        await fs.mkdir(uploadsDir, { recursive: true })
+      } catch(e) {}
+      
+      const filePath = path.join(uploadsDir, fileName)
+      await fs.writeFile(filePath, buffer)
+      
+      imageUrls.push(`/uploads/${fileName}`)
+    }
   }
 
   await prisma.product.create({
@@ -49,7 +50,7 @@ export async function createProductAction(formData: FormData) {
       price,
       stock,
       categoryId,
-      ...(imageUrl && { imageUrl })
+      images: imageUrls
     }
   })
 
@@ -68,27 +69,29 @@ export async function updateProductAction(id: string, formData: FormData) {
   const price = parseFloat(formData.get("price") as string)
   const stock = parseInt(formData.get("stock") as string, 10)
   
-  const imageFile = formData.get("image") as File | null
-  let imageUrl = undefined
+  const imageFiles = formData.getAll("images") as File[]
+  const imageUrls: String[] = []
 
-  if (imageFile && imageFile.size > 0) {
-    const bytes = await imageFile.arrayBuffer()
-    const buffer = Buffer.from(bytes)
+  for (const imageFile of imageFiles) {
+    if (imageFile && imageFile.size > 0) {
+      const bytes = await imageFile.arrayBuffer()
+      const buffer = Buffer.from(bytes)
 
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`
-    const ext = path.extname(imageFile.name) || '.jpg'
-    const fileName = `product-${uniqueSuffix}${ext}`
-    
-    const uploadsDir = path.join(process.cwd(), "public", "uploads")
-    
-    try {
-      await fs.mkdir(uploadsDir, { recursive: true })
-    } catch(e) {}
-    
-    const filePath = path.join(uploadsDir, fileName)
-    await fs.writeFile(filePath, buffer)
-    
-    imageUrl = `/uploads/${fileName}`
+      const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1E9)}`
+      const ext = path.extname(imageFile.name) || '.jpg'
+      const fileName = `product-${uniqueSuffix}${ext}`
+      
+      const uploadsDir = path.join(process.cwd(), "public", "uploads")
+      
+      try {
+        await fs.mkdir(uploadsDir, { recursive: true })
+      } catch(e) {}
+      
+      const filePath = path.join(uploadsDir, fileName)
+      await fs.writeFile(filePath, buffer)
+      
+      imageUrls.push(`/uploads/${fileName}`)
+    }
   }
 
   await prisma.product.update({
@@ -99,7 +102,7 @@ export async function updateProductAction(id: string, formData: FormData) {
       price,
       stock,
       categoryId,
-      ...(imageUrl && { imageUrl })
+      ...(imageUrls.length > 0 && { images: imageUrls })
     }
   })
 
