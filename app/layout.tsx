@@ -5,6 +5,9 @@ import ThemeProvider from "@/components/providers/ThemeProvider";
 import Header from "@/components/ui/Header";
 import { getStoreSettings } from "@/lib/settings";
 
+export const dynamic = "force-dynamic";
+
+
 const poppins = Poppins({
   variable: "--font-poppins",
   subsets: ["latin"],
