@@ -3,11 +3,10 @@ import Link from "next/link"
 import { ShoppingBag } from "lucide-react"
 import AddToCartButton from "@/components/shop/AddToCartButton"
 
-export default async function ShopPage({
-  searchParams,
-}: {
-  searchParams: { category?: string; sort?: string; q?: string }
+export default async function ShopPage(props: {
+  searchParams: Promise<{ category?: string; sort?: string; q?: string }>
 }) {
+  const searchParams = await props.searchParams;
   const products = await prisma.product.findMany({
     where: {
       ...(searchParams.category && { categoryId: searchParams.category }),

@@ -1,9 +1,8 @@
 import { auth } from "@/lib/auth"
 import Link from "next/link"
-import Image from "next/image"
 import { PackageOpen, Plus, Search, Edit, Trash2 } from "lucide-react"
-
 import { prisma } from "@/lib/prisma"
+import { deleteProductAction } from "@/actions/product"
 
 export default async function AdminProductsPage() {
   const session = await auth()
@@ -17,8 +16,8 @@ export default async function AdminProductsPage() {
   // Format the data for the UI
   const products = dbProducts.map(p => {
     let status = 'Active';
-    if (p.stock === 0) status = 'Out of Stock';
-    else if (p.stock <= 10) status = 'Low Stock';
+    if ((p.stock ?? 0) === 0) status = 'Out of Stock';
+    else if ((p.stock ?? 0) <= 10) status = 'Low Stock';
 
     return {
       id: p.id,
@@ -94,11 +93,12 @@ export default async function AdminProductsPage() {
                       <Link href={`/dashboard/products/${product.id}/edit`} className="p-2 text-gray-400 hover:text-blue-600 transition">
                         <Edit size={18} />
                       </Link>
-                      <form action={async () => {
-                        "use server"
-                        await prisma.product.delete({ where: { id: product.id } })
-                      }}>
-                        <button type="submit" className="p-2 text-gray-400 hover:text-red-600 transition">
+                      <form action={deleteProductAction.bind(null, product.id)}>
+                        <button
+                          type="submit"
+                          className="p-2 text-gray-400 hover:text-red-600 transition"
+                          title="Delete product"
+                        >
                           <Trash2 size={18} />
                         </button>
                       </form>

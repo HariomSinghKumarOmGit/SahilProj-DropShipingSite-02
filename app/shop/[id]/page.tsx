@@ -5,9 +5,12 @@ import { ShoppingBag, Star, Truck, ShieldCheck } from "lucide-react"
 import Link from "next/link"
 import AddToCartButton from "@/components/shop/AddToCartButton"
 
-export default async function ProductDetailPage({ params }: { params: { id: string } }) {
+export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const resolvedParams = await params;
+  const id = resolvedParams.id;
+
   const product = await prisma.product.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: { category: true }
   })
 
