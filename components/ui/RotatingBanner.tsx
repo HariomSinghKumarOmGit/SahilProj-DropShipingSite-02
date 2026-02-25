@@ -46,21 +46,24 @@ const defaultSlides = [
   },
 ]
 
-export default function RotatingBanner({ bannerUrl }: { bannerUrl?: string | null }) {
+export default function RotatingBanner({ bannerUrls = [] }: { bannerUrls?: string[] }) {
   const slides = useMemo(() => {
-    if (!bannerUrl) return defaultSlides
-    const adminSlide = {
-      id: 0,
-      image: bannerUrl,
-      headline: "Welcome to Our Store",
-      sub: "Discover amazing products at great prices",
-      cta: "Shop Now",
-      href: "/shop",
-      accent: "#3b82f6",
-      bg: "from-blue-50 to-indigo-100",
+    if (bannerUrls && bannerUrls.length > 0) {
+      // Create a slide for each uploaded banner
+      return bannerUrls.map((url, i) => ({
+        id: i,
+        image: url,
+        headline: i === 0 ? "Welcome to Our Store" : "Featured Collection",
+        sub: i === 0 ? "Discover amazing products at great prices" : "Explore our latest arrivals",
+        cta: "Shop Now",
+        href: "/shop",
+        accent: i % 2 === 0 ? "#3b82f6" : "#ec4899",
+        bg: i % 2 === 0 ? "from-blue-50 to-indigo-100" : "from-pink-50 to-fuchsia-100",
+      }))
     }
-    return [adminSlide, ...defaultSlides]
-  }, [bannerUrl])
+    // Fallback if no banners uploaded
+    return defaultSlides
+  }, [bannerUrls])
 
   const [current, setCurrent] = useState(0)
   const [animating, setAnimating] = useState(false)

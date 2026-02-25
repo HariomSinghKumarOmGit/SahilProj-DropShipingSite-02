@@ -9,13 +9,13 @@ export async function getStoreSettings() {
     const settings = await prisma.storeSettings.findFirst()
     return {
       logoUrl: settings?.logoUrl ?? "/logo.png",
-      bannerUrl: settings?.bannerUrl ?? null,
+      bannerUrls: settings?.bannerUrls ?? [],
     }
   } catch (error) {
     console.error("Database connection failed in getStoreSettings:", error)
     return {
       logoUrl: "/logo.png",
-      bannerUrl: null,
+      bannerUrls: [],
     }
   }
 }
