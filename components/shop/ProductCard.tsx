@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { ShoppingBag, X, Star, Check } from "lucide-react"
 import { useCartStore } from "@/lib/store"
+import BuyNowButton from "./BuyNowButton"
 
 type Product = {
   id: string
@@ -155,12 +156,12 @@ function ProductModal({ product, onClose }: { product: Product; onClose: () => v
                 </>
               )}
             </button>
-            <a
-              href={`/checkout?productId=${product.id}`}
+            <BuyNowButton
+              product={product}
               className="w-full py-4 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-gray-900 font-bold rounded-2xl flex items-center justify-center gap-2 transition-all duration-200 active:scale-95"
             >
               Buy Now →
-            </a>
+            </BuyNowButton>
           </div>
         </div>
       </div>
