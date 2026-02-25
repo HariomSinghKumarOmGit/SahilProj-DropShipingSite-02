@@ -30,7 +30,7 @@ export default function Header({ logoUrl = "/logo.png" }: { logoUrl?: string }) 
           <img 
             src={logoUrl} 
             alt="Store Logo" 
-            className="object-contain h-15 w-40 -mb-3" 
+            className="object-cover h-15 w-40 -mb-3" 
           />
       </Link>
       
