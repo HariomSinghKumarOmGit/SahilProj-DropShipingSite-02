@@ -25,7 +25,8 @@ export default async function ShopPage(props: {
   const resolveImage = (url: string | null) => {
     if (!url) return "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&q=80" // Fallback placeholder
     if (url.startsWith('http')) return url;
-    return `/uploads/${url.startsWith('/') ? url.slice(1) : url}`;
+    if (url.startsWith('/')) return url;
+    return `/uploads/${url}`;
   }
 
   return (

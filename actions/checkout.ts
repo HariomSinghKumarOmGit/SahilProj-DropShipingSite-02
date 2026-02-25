@@ -51,7 +51,7 @@ export async function processCheckout(formData: z.infer<typeof checkoutSchema>) 
           throw new Error(`Product not found.`)
         }
 
-        if (product.stock < item.quantity) {
+        if ((product.stock ?? 0) < item.quantity) {
           throw new Error(`Not enough stock for ${product.name}.`)
         }
 
@@ -60,7 +60,7 @@ export async function processCheckout(formData: z.infer<typeof checkoutSchema>) 
         // Decrement stock
         await tx.product.update({
           where: { id: item.productId },
-          data: { stock: product.stock - item.quantity }
+          data: { stock: (product.stock ?? 0) - item.quantity }
         })
       }
 

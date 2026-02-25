@@ -13,12 +13,13 @@ export default function AdminDashboardLayout({ children }: { children: React.Rea
     { name: "Categories", path: "/dashboard/categories" },
     { name: "Orders", path: "/dashboard/orders" },
     { name: "Users", path: "/dashboard/users" },
+    { name: "Settings", path: "/dashboard/settings" },
   ]
 
   return (
     <div className="flex min-h-screen bg-gray-50 dark:bg-[#0a0a0a] pt-20">
       {/* Sidebar */}
-      <aside className="w-64 bg-white dark:bg-[#111] border-r border-gray-200 dark:border-gray-800 p-6 flex-shrink-0">
+      <aside className="w-64 bg-white dark:bg-[#111] border-r border-gray-200 dark:border-gray-800 p-6 shrink-0">
         <nav className="space-y-2 mt-4">
           {navItems.map((item) => {
             const isActive = pathname === item.path || (item.path !== "/dashboard" && pathname.startsWith(item.path))

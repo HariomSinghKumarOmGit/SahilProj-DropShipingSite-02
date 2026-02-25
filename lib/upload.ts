@@ -5,11 +5,11 @@ import path from "path"
  * All supported upload target folders.
  * Files will be saved into: public/uploads/<folder>/
  */
-export type UploadFolder = "products" | "thumbnails" | "categories" | "logos"
+export type UploadFolder = "products" | "thumbnails" | "categories" | "logos" | "banners"
 
 const UPLOAD_ROOT = path.join(process.cwd(), "public", "uploads")
 
-const ALL_DIRS: UploadFolder[] = ["products", "thumbnails", "categories", "logos"]
+const ALL_DIRS: UploadFolder[] = ["products", "thumbnails", "categories", "logos", "banners"]
 
 /**
  * Ensures every required upload sub-directory exists under public/uploads/.

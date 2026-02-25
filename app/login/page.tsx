@@ -14,7 +14,7 @@ export default function LoginPage() {
       <div className="max-w-md w-full">
         <div className="bg-white dark:bg-[#111] border border-gray-200 dark:border-gray-800 rounded-3xl p-8 shadow-xl">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-blue-600 to-purple-600">
               Welcome Back
             </h1>
             <p className="text-gray-500 mt-3 font-medium">Log in to manage your account or administrative dashboard.</p>

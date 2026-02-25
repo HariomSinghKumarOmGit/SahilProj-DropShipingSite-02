@@ -13,7 +13,7 @@ export default function RegisterPage() {
       <div className="max-w-md w-full">
         <div className="bg-white dark:bg-[#111] border border-gray-200 dark:border-gray-800 rounded-3xl p-8 shadow-xl">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
+            <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-linear-to-r from-blue-600 to-purple-600">
               Create Account
             </h1>
             <p className="text-gray-500 mt-3 font-medium">Join us to manage your orders and profile.</p>

@@ -172,9 +172,21 @@ function ProductModal({ product, onClose }: { product: Product; onClose: () => v
 export default function ProductCard({ product }: { product: Product }) {
   const [hovered, setHovered] = useState(false)
   const [modalOpen, setModalOpen] = useState(false)
+  const { addItem } = useCartStore()
 
   const img0 = resolveImage(product.images?.[0])
   const img1 = resolveImage(product.images?.[1] || product.images?.[0])
+
+  const handleQuickAdd = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    addItem({
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      quantity: 1,
+      imageUrl: img0,
+    })
+  }
 
   return (
     <>
@@ -258,16 +270,26 @@ export default function ProductCard({ product }: { product: Product }) {
           </div>
 
           {/* Price Row */}
-          <div className="flex items-center gap-2 mt-1">
-            <span className="text-lg font-extrabold text-gray-900 dark:text-white">
-              ₹{product.price.toFixed(0)}
-            </span>
-            <span className="text-sm text-gray-400 line-through">
-              ₹{(product.price * 1.5).toFixed(0)}
-            </span>
-            <span className="text-xs font-bold text-green-600 bg-green-50 dark:bg-green-900/20 px-1.5 py-0.5 rounded-md">
-              33% off
-            </span>
+          <div className="flex items-center justify-between mt-1 pt-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <span className="text-lg font-extrabold text-gray-900 dark:text-white">
+                ₹{product.price.toFixed(0)}
+              </span>
+              <span className="text-sm text-gray-400 line-through">
+                ₹{(product.price * 1.5).toFixed(0)}
+              </span>
+              <span className="text-xs font-bold text-green-600 bg-green-50 dark:bg-green-900/20 px-1.5 py-0.5 rounded-md hidden md:inline-block">
+                33% off
+              </span>
+            </div>
+            
+            <button
+              onClick={handleQuickAdd}
+              className="md:hidden p-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-full hover:bg-gray-800 dark:hover:bg-gray-100 transition shadow-sm"
+              aria-label="Add to cart"
+            >
+              <ShoppingBag size={18} />
+            </button>
           </div>
         </div>
       </div>

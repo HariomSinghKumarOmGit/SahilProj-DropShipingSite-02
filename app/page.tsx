@@ -4,18 +4,22 @@ import ProductCard from "@/components/shop/ProductCard"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { prisma } from "@/lib/prisma"
+import { getStoreSettings } from "@/lib/settings"
 
 export default async function Home() {
-  const products = await prisma.product.findMany({
-    take: 8,
-    orderBy: { createdAt: "desc" },
-    include: { category: true },
-  })
+  const [products, settings] = await Promise.all([
+    prisma.product.findMany({
+      take: 8,
+      orderBy: { createdAt: "desc" },
+      include: { category: true },
+    }),
+    getStoreSettings(),
+  ])
 
   return (
     <main className="min-h-screen">
       {/* ── Rotating Banner ── */}
-      <RotatingBanner />
+      <RotatingBanner bannerUrl={settings.bannerUrl} />
 
       {/* ── Products Grid ── */}
       <section className="py-14 bg-gray-50 dark:bg-[#0a0a0a]">

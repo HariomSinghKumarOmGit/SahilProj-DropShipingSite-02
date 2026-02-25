@@ -3,6 +3,7 @@ import { Poppins, Montserrat } from "next/font/google";
 import "./globals.css";
 import ThemeProvider from "@/components/providers/ThemeProvider";
 import Header from "@/components/ui/Header";
+import { getStoreSettings } from "@/lib/settings";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -21,19 +22,22 @@ export const metadata: Metadata = {
   description: "Next.js + GSAP + Tailwind Storefront",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await getStoreSettings();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.variable} ${montserrat.variable} antialiased font-poppins`}>
         <ThemeProvider>
-          <Header />
+          <Header logoUrl={settings.logoUrl} />
           {children}
         </ThemeProvider>
       </body>
     </html>
   );
 }
+

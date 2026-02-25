@@ -1,9 +1,9 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import Link from "next/link"
 
-const slides = [
+const defaultSlides = [
   {
     id: 1,
     image: "https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=1600&q=80",
@@ -46,7 +46,22 @@ const slides = [
   },
 ]
 
-export default function RotatingBanner() {
+export default function RotatingBanner({ bannerUrl }: { bannerUrl?: string | null }) {
+  const slides = useMemo(() => {
+    if (!bannerUrl) return defaultSlides
+    const adminSlide = {
+      id: 0,
+      image: bannerUrl,
+      headline: "Welcome to Our Store",
+      sub: "Discover amazing products at great prices",
+      cta: "Shop Now",
+      href: "/shop",
+      accent: "#3b82f6",
+      bg: "from-blue-50 to-indigo-100",
+    }
+    return [adminSlide, ...defaultSlides]
+  }, [bannerUrl])
+
   const [current, setCurrent] = useState(0)
   const [animating, setAnimating] = useState(false)
 
