@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Poppins, Montserrat } from "next/font/google";
 import "./globals.css";
+import ThemeProvider from "@/components/providers/ThemeProvider";
+import Header from "@/components/ui/Header";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -19,18 +21,18 @@ export const metadata: Metadata = {
   description: "Next.js + GSAP + Tailwind Storefront",
 };
 
-import Header from "@/components/ui/Header";
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body suppressHydrationWarning className={`${poppins.variable} ${montserrat.variable} antialiased text-gray-900 bg-white font-poppins`}>
-        <Header />
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${poppins.variable} ${montserrat.variable} antialiased font-poppins`}>
+        <ThemeProvider>
+          <Header />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
