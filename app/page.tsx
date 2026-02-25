@@ -19,7 +19,7 @@ export default async function Home() {
   return (
     <main className="min-h-screen">
       {/* ── Rotating Banner ── */}
-      <RotatingBanner bannerUrls={settings.bannerUrls} />
+      <RotatingBanner bannerUrl={settings.bannerUrl} />
 
       {/* ── Products Grid ── */}
       <section className="py-14 bg-gray-50 dark:bg-[#0a0a0a]">

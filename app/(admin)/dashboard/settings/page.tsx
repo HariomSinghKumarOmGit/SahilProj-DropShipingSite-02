@@ -22,7 +22,7 @@ export default async function SettingsPage() {
 
       <SettingsForm
         currentLogo={settings?.logoUrl ?? null}
-        currentBanners={settings?.bannerUrls ?? []}
+        currentBanner={settings?.bannerUrl ?? null}
       />
     </div>
   )

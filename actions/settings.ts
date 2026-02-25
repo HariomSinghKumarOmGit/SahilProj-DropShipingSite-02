@@ -15,17 +15,7 @@ export async function updateSettingsAction(formData: FormData) {
   const current = await prisma.storeSettings.findFirst()
 
   let logoUrl = current?.logoUrl ?? null
-  
-  // Existing banners the user didn't delete from the UI
-  const keptBannersRaw = formData.get("keptBanners") as string | null
-  let finalBanners: string[] = []
-  if (keptBannersRaw) {
-    try {
-      finalBanners = JSON.parse(keptBannersRaw)
-    } catch (e) {
-      console.error("Failed to parse keptBanners", e)
-    }
-  }
+  let bannerUrl = current?.bannerUrl ?? null
 
   // Process logo upload
   const logoFile = formData.get("logo") as File | null
@@ -33,24 +23,21 @@ export async function updateSettingsAction(formData: FormData) {
     logoUrl = await saveFile(logoFile, "logos")
   }
 
-  // Process new banner uploads
-  const newBannerFiles = formData.getAll("newBanners") as File[]
-  for (const file of newBannerFiles) {
-    if (file && file.size > 0) {
-      const savedPath = await saveFile(file, "banners")
-      finalBanners.push(savedPath)
-    }
+  // Process banner upload
+  const bannerFile = formData.get("banner") as File | null
+  if (bannerFile && bannerFile.size > 0) {
+    bannerUrl = await saveFile(bannerFile, "banners")
   }
 
   // Upsert the single settings record
   if (current) {
     await prisma.storeSettings.update({
       where: { id: current.id },
-      data: { logoUrl, bannerUrls: finalBanners },
+      data: { logoUrl, bannerUrl },
     })
   } else {
     await prisma.storeSettings.create({
-      data: { logoUrl, bannerUrls: finalBanners },
+      data: { logoUrl, bannerUrl },
     })
   }
 

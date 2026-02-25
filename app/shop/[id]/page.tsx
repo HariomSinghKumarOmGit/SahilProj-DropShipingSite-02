@@ -4,7 +4,6 @@ import ProductGallery from "@/components/shop/ProductGallery"
 import { ShoppingBag, Star, Truck, ShieldCheck } from "lucide-react"
 import Link from "next/link"
 import AddToCartButton from "@/components/shop/AddToCartButton"
-import BuyNowButton from "@/components/shop/BuyNowButton"
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -69,7 +68,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             <div className="flex-1 w-full">
               <AddToCartButton product={product} />
             </div>
-            <BuyNowButton product={product} className="flex-1 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-bold py-4 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition mt-4" />
+            <button className="flex-1 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-bold py-4 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition mt-4">
+              Buy Now
+            </button>
           </div>
 
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-8 border-b border-gray-200 dark:border-gray-800 pb-8">
@@ -108,7 +109,9 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           <div className="flex-1">
             <AddToCartButton product={product} variant="quick" />
           </div>
-          <BuyNowButton product={product} className="flex-1 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold py-3 rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition shadow-lg" />
+          <button className="flex-1 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold py-3 rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition shadow-lg">
+            Buy Now
+          </button>
         </div>
       </div>
     </div>

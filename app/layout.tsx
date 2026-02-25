@@ -34,7 +34,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${poppins.variable} ${montserrat.variable} antialiased font-poppins`}>
+      <body suppressHydrationWarning className={`${poppins.variable} ${montserrat.variable} antialiased font-poppins`}>
         <ThemeProvider>
           <Header logoUrl={settings.logoUrl} />
           {children}

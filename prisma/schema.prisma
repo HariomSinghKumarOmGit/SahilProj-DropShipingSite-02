@@ -80,8 +80,8 @@ model OrderItem {
 }
 
 model StoreSettings {
-  id         String   @id @default(cuid())
-  logoUrl    String?
-  bannerUrls String[] @default([])
-  updatedAt  DateTime @updatedAt
+  id        String   @id @default(cuid())
+  logoUrl   String?
+  bannerUrl String?
+  updatedAt DateTime @updatedAt
 }
