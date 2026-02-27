@@ -45,7 +45,7 @@ export default function RevenueChart() {
             axisLine={false} 
             tickLine={false} 
             tick={{ fill: '#888', fontSize: 12 }}
-            tickFormatter={(value) => `$${value}`}
+            tickFormatter={(value) => `₹${value}`}
             dx={-10}
           />
           <Tooltip 
@@ -56,7 +56,7 @@ export default function RevenueChart() {
               color: '#fff'
             }}
             itemStyle={{ color: '#3b82f6' }}
-            formatter={(value: any) => [`$${value}`, 'Revenue']}
+            formatter={(value: any) => [`₹${value}`, 'Revenue']}
           />
           <Area 
             type="monotone" 

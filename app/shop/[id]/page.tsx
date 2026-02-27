@@ -4,6 +4,7 @@ import ProductGallery from "@/components/shop/ProductGallery"
 import { ShoppingBag, Star, Truck, ShieldCheck } from "lucide-react"
 import Link from "next/link"
 import AddToCartButton from "@/components/shop/AddToCartButton"
+import { formatINR } from "@/lib/format"
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const resolvedParams = await params;
@@ -55,7 +56,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               {product.name}
             </h1>
             <p className="text-3xl font-medium text-gray-900 dark:text-white">
-              ${product.price.toFixed(2)}
+              {formatINR(product.price)}
             </p>
           </div>
 
@@ -68,9 +69,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
             <div className="flex-1 w-full">
               <AddToCartButton product={product} />
             </div>
-            <button className="flex-1 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-bold py-4 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition mt-4">
+            <Link
+              href={`/checkout?productId=${product.id}&price=${product.price}&name=${encodeURIComponent(product.name)}&image=${encodeURIComponent(product.images?.[0] || '')}`}
+              className="flex-1 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white font-bold py-4 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-700 transition mt-4 text-center"
+            >
               Buy Now
-            </button>
+            </Link>
           </div>
 
           <div className="flex items-center gap-2 text-sm text-gray-500 mb-8 border-b border-gray-200 dark:border-gray-800 pb-8">
@@ -86,7 +90,7 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
               </div>
               <div>
                 <h4 className="font-semibold text-gray-900 dark:text-white">Free Global Shipping</h4>
-                <p className="text-sm text-gray-500">Fast and trackable delivery worldwide on orders over $100.</p>
+                <p className="text-sm text-gray-500">Fast and trackable delivery worldwide on orders over ₹500.</p>
               </div>
             </div>
             <div className="flex items-start gap-4">
@@ -109,9 +113,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
           <div className="flex-1">
             <AddToCartButton product={product} variant="quick" />
           </div>
-          <button className="flex-1 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold py-3 rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition shadow-lg">
+          <Link
+            href={`/checkout?productId=${product.id}&price=${product.price}&name=${encodeURIComponent(product.name)}&image=${encodeURIComponent(product.images?.[0] || '')}`}
+            className="flex-1 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold py-3 rounded-xl hover:bg-gray-800 dark:hover:bg-gray-100 transition shadow-lg text-center"
+          >
             Buy Now
-          </button>
+          </Link>
         </div>
       </div>
     </div>

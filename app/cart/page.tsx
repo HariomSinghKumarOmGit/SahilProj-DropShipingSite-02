@@ -3,6 +3,7 @@
 import { useCartStore } from "@/lib/store"
 import Link from "next/link"
 import { Trash2, ArrowRight } from "lucide-react"
+import { formatINR } from "@/lib/format"
 
 export default function CartPage() {
   const { items, updateQuantity, removeItem, getTotal } = useCartStore()
@@ -47,7 +48,7 @@ export default function CartPage() {
                         </div>
                       </div>
                     </td>
-                    <td className="py-6 px-6 hidden md:table-cell">${item.price.toFixed(2)}</td>
+                    <td className="py-6 px-6 hidden md:table-cell">{formatINR(item.price)}</td>
                     <td className="py-6 px-6">
                       <div className="flex items-center border border-gray-300 dark:border-gray-700 rounded-lg w-fit">
                         <button 
@@ -62,7 +63,7 @@ export default function CartPage() {
                       </div>
                     </td>
                     <td className="py-6 px-6 text-right font-medium">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      {formatINR(item.price * item.quantity)}
                     </td>
                     <td className="py-6 px-6 text-right">
                       <button 
@@ -86,7 +87,7 @@ export default function CartPage() {
             <div className="space-y-4 mb-6">
               <div className="flex justify-between">
                 <span className="text-gray-600 dark:text-gray-400">Subtotal</span>
-                <span className="font-medium">${getTotal().toFixed(2)}</span>
+                <span className="font-medium">{formatINR(getTotal())}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-600 dark:text-gray-400">Shipping</span>
@@ -100,7 +101,7 @@ export default function CartPage() {
             
             <div className="border-t border-gray-200 dark:border-gray-700 pt-6 mb-8 flex justify-between items-center">
               <span className="text-lg font-bold">Total</span>
-              <span className="text-2xl font-bold">${getTotal().toFixed(2)}</span>
+              <span className="text-2xl font-bold">{formatINR(getTotal())}</span>
             </div>
 
             <Link href="/checkout" className="w-full bg-blue-600 text-white font-semibold py-4 rounded-xl flex items-center justify-center gap-2 hover:bg-blue-700 transition">

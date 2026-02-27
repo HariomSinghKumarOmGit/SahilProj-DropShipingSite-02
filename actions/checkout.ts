@@ -12,6 +12,7 @@ const checkoutSchema = z.object({
   city: z.string().min(2),
   zipCode: z.string().min(3),
   country: z.string().min(2),
+  razorpayPaymentId: z.string().optional(),
   items: z.array(
     z.object({
       productId: z.string(),

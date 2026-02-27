@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma"
 import Link from "next/link"
 import { ShoppingBag } from "lucide-react"
 import AddToCartButton from "@/components/shop/AddToCartButton"
+import { formatINR } from "@/lib/format"
 
 export default async function ShopPage(props: {
   searchParams: Promise<{ category?: string; sort?: string; q?: string }>
@@ -83,7 +84,7 @@ export default async function ShopPage(props: {
                   </Link>
                   <Link href={`/shop/${product.id}`} className="flex justify-between items-start mb-1 flex-1 mt-2">
                     <h3 className="text-lg font-semibold line-clamp-2 pr-4 hover:text-blue-600 transition">{product.name}</h3>
-                    <p className="font-bold whitespace-nowrap">${product.price.toFixed(2)}</p>
+                    <p className="font-bold whitespace-nowrap">{formatINR(product.price)}</p>
                   </Link>
                   <AddToCartButton product={product} />
                 </div>

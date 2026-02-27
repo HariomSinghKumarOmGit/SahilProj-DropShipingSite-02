@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { ShoppingBag, X, Star, Check } from "lucide-react"
 import { useCartStore } from "@/lib/store"
+import { formatINR, formatINRShort } from "@/lib/format"
 
 type Product = {
   id: string
@@ -129,9 +130,9 @@ function ProductModal({ product, onClose }: { product: Product; onClose: () => v
             )}
 
             <div className="text-3xl font-extrabold text-gray-900 dark:text-white mb-6">
-              ₹{product.price.toFixed(0)}
+              {formatINRShort(product.price)}
               <span className="text-base font-normal text-gray-400 line-through ml-3">
-                ₹{(product.price * 1.5).toFixed(0)}
+                {formatINRShort(product.price * 1.5)}
               </span>
               <span className="ml-3 text-sm font-semibold text-green-600 bg-green-50 dark:bg-green-900/20 px-2 py-0.5 rounded-full">
                 33% off
@@ -156,7 +157,7 @@ function ProductModal({ product, onClose }: { product: Product; onClose: () => v
               )}
             </button>
             <a
-              href={`/checkout?productId=${product.id}`}
+              href={`/checkout?productId=${product.id}&price=${product.price}&name=${encodeURIComponent(product.name)}&image=${encodeURIComponent(images[0] || '')}`}
               className="w-full py-4 bg-gray-900 dark:bg-white hover:bg-gray-800 dark:hover:bg-gray-100 text-white dark:text-gray-900 font-bold rounded-2xl flex items-center justify-center gap-2 transition-all duration-200 active:scale-95"
             >
               Buy Now →
@@ -273,10 +274,10 @@ export default function ProductCard({ product }: { product: Product }) {
           <div className="flex items-center justify-between mt-1 pt-1">
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-lg font-extrabold text-gray-900 dark:text-white">
-                ₹{product.price.toFixed(0)}
+                {formatINRShort(product.price)}
               </span>
               <span className="text-sm text-gray-400 line-through">
-                ₹{(product.price * 1.5).toFixed(0)}
+                {formatINRShort(product.price * 1.5)}
               </span>
               <span className="text-xs font-bold text-green-600 bg-green-50 dark:bg-green-900/20 px-1.5 py-0.5 rounded-md hidden md:inline-block">
                 33% off

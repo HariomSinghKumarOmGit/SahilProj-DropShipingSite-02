@@ -4,6 +4,7 @@ import Image from "next/image"
 import { ShoppingBag, Search, Eye, Filter } from "lucide-react"
 
 import { prisma } from "@/lib/prisma"
+import { formatINR } from "@/lib/format"
 
 export default async function AdminOrdersPage() {
   const session = await auth()
@@ -74,7 +75,7 @@ export default async function AdminOrdersPage() {
                   <td className="py-4 px-6">{order.customer}</td>
                   <td className="py-4 px-6 text-gray-500">{order.date}</td>
                   <td className="py-4 px-6 text-gray-500">{order.items}</td>
-                  <td className="py-4 px-6 font-medium">${order.total.toFixed(2)}</td>
+                  <td className="py-4 px-6 font-medium">{formatINR(order.total)}</td>
                   <td className="py-4 px-6">
                     <span className={`px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 w-max ${
                       order.status === 'Delivered' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-500' :

@@ -5,6 +5,7 @@ import Image from "next/image"
 import RevenueChart from "@/components/admin/RevenueChart"
 
 import { prisma } from "@/lib/prisma"
+import { formatINR } from "@/lib/format"
 
 export default async function AdminDashboard() {
   const session = await auth()
@@ -25,7 +26,7 @@ export default async function AdminDashboard() {
 
   // Real data structure
   const stats = [
-    { name: 'Total Revenue', value: `$${revenueNum.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, change: '+0.0%', icon: CreditCard },
+    { name: 'Total Revenue', value: formatINR(revenueNum), change: '+0.0%', icon: CreditCard },
     { name: 'Active Users', value: usersCount.toString(), change: '+0.0%', icon: Users },
     { name: 'Total Orders', value: ordersCount.toString(), change: '+0.0%', icon: ShoppingBag },
     { name: 'Conversion Rate', value: 'N/A', change: '0%', icon: TrendingUp },
